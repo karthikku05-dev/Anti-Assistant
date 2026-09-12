@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Anti-Assistant</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .chat-card {
+      width: 100%;
+      max-width: 480px;
+      height: 85vh;
+      background: #000307;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      border: 1px solid #334155;
+    }
+    .chat-header {
+      padding: 16px 18px;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      text-align: center;
+      position: relative;
+    }
+    .ref-code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .chat-header h1 {
+      font-size: 1.2rem;
+      color: #38bdf8;
+    }
+    .chat-header p {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+    .messages-area {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .msg-group {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+    }
+    .msg-group.user { align-self: flex-end; align-items: flex-end; }
+    .msg-group.assistant { align-self: flex-start; align-items: flex-start; }
+
+    .msg-meta {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: #64748b;
+      margin-bottom: 4px;
+      padding: 0 2px;
+    }
+    .msg-group.user .msg-meta { color: #7dd3fc; }
+
+    .bubble {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .bubble.user {
+      background: #0284c7;
+      color: #fff;
+      border-bottom-right-radius: 2px;
+    }
+    .bubble.assistant {
+      background: #334155;
+      color: #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .bubble.assistant.thinking {
+      color: #94a3b8;
+      font-style: italic;
+    }
+    .bubble.assistant.error {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+    .input-form {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px;
+      background: #0f172a;
+      border-top: 1px solid #334155;
+    }
+    .field-label {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      padding-left: 2px;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      color: #fff;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: #38bdf8;
+    }
+    input[type="text"]:disabled {
+      opacity: 0.6;
+    }
+    button {
+      padding: 10px 18px;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #475569;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+    .footnote {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 9.5px;
+      color: #475569;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    .messages-area::-webkit-scrollbar { width: 8px; }
+    .messages-area::-webkit-scrollbar-track { background: transparent; }
+    .messages-area::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="chat-card">
+    <div class="chat-header">
+      <div class="ref-code">
+        <span>REF. AA-0001</span>
+        <span id="clock"></span>
+      </div>
+      <h1>The Anti-Assistant</h1>
+      <p>100% Technically accurate. Entirely unhelpful.</p>
+    </div>
+
+    <div class="messages-area" id="messagesArea">
+      <div class="msg-group assistant">
+        <div class="msg-meta">RESPONSE — TICKET #000</div>
+        <div class="bubble assistant">
+          Submit your question below. You will receive an accurate, thoroughly useless reply.
+        </div>
+      </div>
+    </div>
+
+    <form class="input-form" id="chatForm">
+      <div class="field-label">YOUR INQUIRY</div>
+      <div class="input-row">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Ask for advice or a fact..."
+          autocomplete="off"
+          maxlength="2000"
+          required
+        />
+        <button type="submit" id="sendBtn">Send</button>
+      </div>
+      <div class="footnote">Responses generated by an unaccountable automated process. No refunds.</div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("userInput");
+    const area = document.getElementById("messagesArea");
+    const sendBtn = document.getElementById("sendBtn");
+    const clock = document.getElementById("clock");
+
+    let isSending = false; // guards against double-submit (e.g. rapid Enter presses)
+    let ticketCount = 0;
+
+    function updateClock() {
+      clock.textContent = new Date().toLocaleDateString(undefined, {
+        year: "numeric", month: "2-digit", day: "2-digit"
+      });
+    }
+    updateClock();
+    setInterval(updateClock, 60000);
+
+    function ticket() {
+      ticketCount += 1;
+      return String(ticketCount).padStart(3, "0");
+    }
+
+    function addMessage(text, role, extraClass = "") {
+      const group = document.createElement("div");
+      group.className = `msg-group ${role}`;
+
+      const meta = document.createElement("div");
+      meta.className = "msg-meta";
+      const tag = role === "user" ? "INQUIRY" : "RESPONSE";
+      const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      meta.textContent = `${tag} — TICKET #${ticket()} · ${time}`;
+
+      const bubble = document.createElement("div");
+      bubble.className = `bubble ${role} ${extraClass}`.trim();
+      bubble.textContent = text;
+
+      group.appendChild(meta);
+      group.appendChild(bubble);
+      area.appendChild(group);
+      area.scrollTop = area.scrollHeight;
+      return group;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (isSending) return; // hard stop: ignore re-entrant submits
+
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      isSending = true;
+      addMessage(userText, "user");
+      input.value = "";
+      sendBtn.disabled = true;
+      input.disabled = true;
+
+      const thinkingGroup = addMessage("🤔💭  Just a minute....", "assistant", "thinking");
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userText }),
+        });
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch {
+          // response wasn't JSON; fall through to generic error below
+        }
+
+        if (!response.ok) {
+          const detail = data && data.detail ? data.detail : `Server error (${response.status})`;
+          throw new Error(detail);
+        }
+
+        thinkingGroup.remove();
+        ticketCount -= 1; // reclaim the ticket number used by the thinking placeholder
+        addMessage(data.reply, "assistant");
+      } catch (err) {
+        thinkingGroup.remove();
+        ticketCount -= 1;
+        addMessage(
+          err.message || "Failed to get response. Ensure the backend server is running.",
+          "assistant",
+          "error"
+        );
+      } finally {
+        isSending = false;
+        sendBtn.disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    });
+
+    input.focus();
+  </script>
+
+</body>
+</html>
