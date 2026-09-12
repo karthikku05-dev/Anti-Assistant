@@ -10,9 +10,9 @@
 
 
 ### Team Members
-- Team Lead: [Add name] - [Add college]
-- Member 2: [Add name] - [Add college]
-- Member 3: [Add name] - [Add college]
+- Team Lead: [Karthik Krishna K U] - [College of engineering Adoor]
+- Member 2: [Malavika Suresh] - [College of engineering Adoor]
+
 
 ### Project Description
 The Anti-Assistant is a deliberately unhelpful AI chat application. It responds to ordinary questions with short, technically accurate, deadpan answers that follow the literal wording instead of providing the practical help the user expected.
@@ -77,7 +77,7 @@ Open [http://localhost:8000](http://localhost:8000) in a browser.
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot of the Anti-Assistant chat interface here)
+![](Add screenshot of the Anti-Assistant chat interface here)
 *The browser-based chat interface for submitting inquiries and viewing responses.*
 
 ![Screenshot2](Add screenshot of a generated response here)
@@ -87,7 +87,67 @@ For Software:
 *The chat layout running in a browser viewport.*
 
 # Diagrams
-![Workflow](Add workflow diagram here)
+![BEFORE THE FIX (max_tokens=200, no reasoning_effort)
+======================================================
+
+  User question
+       |
+       v
+  +-------------------------+
+  |   openai/gpt-oss-120b   |
+  |   (reasoning model)     |
+  +-------------------------+
+       |
+       v
+  [ Internal reasoning phase ]
+  "thinking... thinking... thinking..."
+       |
+       |  <-- eats into the 200-token budget
+       v
+  Token budget: 200 / 200 used
+  ------------------------------------
+  |||||||||||||||||||||||||||||||||||   <- all 200 tokens spent here
+  ------------------------------------
+       |
+       v
+  [ Visible answer phase ]
+       |
+       v
+  0 tokens left  -->  content = ""
+       |
+       v
+  "The model returned no text."
+
+
+AFTER THE FIX (max_tokens=600, reasoning_effort="low")
+======================================================
+
+  User question
+       |
+       v
+  +-------------------------+
+  |   openai/gpt-oss-120b   |
+  +-------------------------+
+       |
+       v
+  [ Internal reasoning phase ]
+  "quick check... done"
+       |
+       v
+  Token budget: 600 / 600 available
+  ------------------------------------
+  ||||||||||........................   <- reasoning uses less (low effort)
+  ------------------------------------
+       |
+       v
+  [ Visible answer phase ]
+       |
+       |  <-- plenty of budget left
+       v
+  Deadpan, technically-true reply
+       |
+       v
+  Reply shown in chat.html](Add workflow diagram here)
 *User inquiry -> browser `fetch` request -> FastAPI `/api/chat` endpoint -> Gemini API -> response displayed in the chat.*
 
 For Hardware:
