@@ -2,64 +2,93 @@
 
 
 
-# [Project Name] 🎯
+# The Anti-Assistant 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Add team name]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Add name] - [Add college]
+- Member 2: [Add name] - [Add college]
+- Member 3: [Add name] - [Add college]
 
 ### Project Description
-[2-3 lines about what your project does]
+The Anti-Assistant is a deliberately unhelpful AI chat application. It responds to ordinary questions with short, technically accurate, deadpan answers that follow the literal wording instead of providing the practical help the user expected.
+
+The project combines a lightweight FastAPI service with a browser-based chat interface and Google's Gemini API.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People keep asking assistants useful questions and receiving useful answers. This project addresses the much less urgent problem of assistants being helpful when they could instead be pedantic, irrelevant, and completely accurate.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+The backend sends each inquiry to Gemini with an Anti-Assistant system prompt. The prompt enforces literal interpretations, absurd comparisons, irrelevant trivia, and short deadpan responses, while the frontend presents the exchange as a simple support-ticket-style chat.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Python
+- HTML, CSS, and JavaScript
+- FastAPI and Uvicorn
+- Pydantic
+- Google Gen AI SDK (`google-genai`)
+- `python-dotenv` for local environment configuration
+- Git and GitHub
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- No hardware required
+- Runs in a web browser with a Python backend
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+Clone the repository and move into the project directory:
+
+```bash
+git clone https://github.com/karthikku05-dev/Anti-Assistant.git
+cd Anti-Assistant
+```
+
+Install the Python dependencies:
+
+```bash
+pip install fastapi uvicorn python-dotenv google-genai pydantic
+```
+
+Create a `.env` file in the project root. Do not commit this file:
+
+```dotenv
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+The repository includes `.env.example` as a safe configuration template.
 
 # Run
-[commands]
+Start the development server:
+
+```bash
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open [http://localhost:8000](http://localhost:8000) in a browser.
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](Add screenshot of the Anti-Assistant chat interface here)
+*The browser-based chat interface for submitting inquiries and viewing responses.*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](Add screenshot of a generated response here)
+*An example of the assistant's technically accurate but unhelpful response style.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](Add screenshot of the responsive layout here)
+*The chat layout running in a browser viewport.*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Workflow](Add workflow diagram here)
+*User inquiry -> browser `fetch` request -> FastAPI `/api/chat` endpoint -> Gemini API -> response displayed in the chat.*
 
 For Hardware:
 
@@ -82,16 +111,16 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[Add demo video link here]
+*The demo should show the server starting, the chat interface loading, and an inquiry receiving an Anti-Assistant response.*
 
 # Additional Demos
-[Add any extra demo materials/links]
+[Add any extra demo materials or links here]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Add name]: FastAPI backend, Gemini integration, and prompt design
+- [Add name]: Frontend chat interface and interaction logic
+- [Add name]: Testing, documentation, and project presentation
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
