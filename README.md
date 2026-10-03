@@ -77,13 +77,16 @@ Open [http://localhost:8000](http://localhost:8000) in a browser.
 For Software:
 
 # Screenshots (Add at least 3)
-![](Add screenshot of the Anti-Assistant chat interface here)
+![<img width="1920" height="1080" alt="Screenshot (2)" src="https://github.com/user-attachments/assets/6c05146f-2de5-44e5-8be9-2f9f59708294" />
+](Add screenshot of the Anti-Assistant chat interface here)
 *The browser-based chat interface for submitting inquiries and viewing responses.*
 
-![Screenshot2](Add screenshot of a generated response here)
+![<img width="1920" height="1080" alt="Screenshot (7)" src="https://github.com/user-attachments/assets/892cad90-8575-437d-b97d-fe3d4ca9ff5d" />
+](Add screenshot of a generated response here)
 *An example of the assistant's technically accurate but unhelpful response style.*
 
-![Screenshot3](Add screenshot of the responsive layout here)
+![<img width="1920" height="1080" alt="Screenshot (4)" src="https://github.com/user-attachments/assets/34e3c9a3-4f2a-4dc7-8301-fad2bbbbf193" />
+](Add screenshot of the responsive layout here)
 *The chat layout running in a browser viewport.*
 
 # Diagrams
@@ -171,7 +174,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add demo video link here]
+[]
 *The demo should show the server starting, the chat interface loading, and an inquiry receiving an Anti-Assistant response.*
 
 # Additional Demos
